@@ -5,7 +5,7 @@
 #define INF -1
 int vertex;
 int *adj; // adjency matrix
-int *sep;
+int *sep; // mid point of the path
 
 void create_adj_mat() {
     adj = (int *) malloc(sizeof(int) * vertex * vertex);
@@ -43,7 +43,7 @@ void searchPath(int start, int end) {
     }
     if (SEP(start, end) != INF){
         SEP(start, SEP(start, end));
-        printf("%d -> ", SEP(start, end));
+        printf("%d -> ", SEP(start, end)+1);
         SEP(SEP(start, end), end);
     }
 }
@@ -51,19 +51,18 @@ void searchPath(int start, int end) {
 void printPath() {
     for (int i=0; i<vertex; i++) {
         for (int j=0; j<vertex; j++) {
-            printf("%d to %d dist: %d, %d ->  ", i, j, ADJ(i, j), i);
+            printf("%d to %d dist: %d, %d ->  ", i+1, j+1, ADJ(i, j)+1, i+1);
             searchPath(i, j);
-            printf("%d\n", j);
+            printf("%d\n", j+1);
         }
     }
-        printf("\n");
+    printf("\n");
 }
 
 int main() {
     scanf("%d", &vertex);    
     create_adj_mat();
-    for (int i=0; i<vertex; i++) {
+    for (int i=0; i<vertex; i++) 
         solve(i);
-    }
     printPath();
 }
